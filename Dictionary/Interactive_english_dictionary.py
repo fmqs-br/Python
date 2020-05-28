@@ -7,6 +7,8 @@ def dictionary(w):
     w = w.lower()
     if w in data:
         return data[w]
+    elif w.title() in data:
+        return data[w.title()]
     elif len(get_close_matches(w, data.keys(), cutoff=0.8)) > 0:
         yn = input("Did you mean %s instead? Enter \"Y\" if Yes, or \"N\" if no:>>"  % get_close_matches(w, data.keys(), cutoff=0.8)[0])
         yn = yn.upper()
