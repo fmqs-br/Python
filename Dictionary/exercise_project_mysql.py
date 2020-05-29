@@ -15,7 +15,7 @@ word = input("Please, insert a word:>> ")
 query = cursor.execute("SELECT * FROM Dictionary WHERE Expression = '{}'" .format(word))
 results = cursor.fetchall()
 
-query_test = cursor.execute("SELECT * FROM Dictionary WHERE Expression LIKE '{}%'".format(word[0]))
+query_test = cursor.execute("SELECT * FROM Dictionary WHERE Expression LIKE '{}%'".format(word[:3]))
 results_test = dict(cursor.fetchall())
 
 if results:
