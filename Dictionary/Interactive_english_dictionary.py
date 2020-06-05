@@ -1,7 +1,7 @@
 import json
 from difflib import get_close_matches
 
-data = json.load(open("Dictionary\data.json"))
+data = json.load(open("data.json"))
 
 def dictionary(w):
     w = w.lower()
