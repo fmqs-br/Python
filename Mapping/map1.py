@@ -21,14 +21,22 @@ def color_popup(elevation):
     else:
         return "red"
 
-map = folium.Map(location=[38.58, -99.09], min_zoom=3, zoom_start= 6, tiles="Stamen Terrain")
+map = folium.Map(location=[38.58, -99.09], min_zoom=2, zoom_start= 6, tiles="Stamen Terrain")
 
-fg = folium.FeatureGroup(name="My Map")
+fgv = folium.FeatureGroup(name="Volcanoes")
 
 for lt, ln, el, name in zip(lat, lon, elev, name):
     iframe = folium.IFrame(html=html % (name, name, el), width=200, height=100)
-    fg.add_child(folium.Marker(location=[lt, ln], popup=folium.Popup(iframe), icon=folium.Icon(color=color_popup(el))))
+    fgv.add_child(folium.Marker(location=[lt, ln], popup=folium.Popup(iframe), icon=folium.Icon(color=color_popup(el))))
 
-map.add_child(fg)
+fgp = folium.FeatureGroup(name="Population")
+
+fgp.add_child(folium.GeoJson(data=open('world.json', 'r', encoding='utf-8-sig').read(),
+style_function=lambda x: {'fillColor':'green' if x['properties']['POP2005'] < 10000000
+else 'orange' if 10000000 <= x['properties']['POP2005'] < 100000000 else 'red'}))
+
+map.add_child(fgv)
+map.add_child(fgp)
+map.add_child(folium.LayerControl())
 
 map.save("Map_html_popup_advanced.html")
