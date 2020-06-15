@@ -13,41 +13,46 @@ Delete
 Close
 """
 from tkinter import *
-import bookstore_back
+from bookstore_back import Database
+
+database=Database("books.db")
 
 def get_selected_row(event):
-    global selected_tuple
-    index=list1.curselection()[0]
-    selected_tuple=list1.get(index)
-    e1.delete(0, END)
-    e1.insert(END,selected_tuple[1])
-    e2.delete(0, END)
-    e2.insert(END,selected_tuple[2])
-    e3.delete(0, END)
-    e3.insert(END,selected_tuple[3])
-    e4.delete(0, END)
-    e4.insert(END,selected_tuple[4])
+    try:
+        global selected_tuple
+        index=list1.curselection()[0]
+        selected_tuple=list1.get(index)
+        e1.delete(0, END)
+        e1.insert(END,selected_tuple[1])
+        e2.delete(0, END)
+        e2.insert(END,selected_tuple[2])
+        e3.delete(0, END)
+        e3.insert(END,selected_tuple[3])
+        e4.delete(0, END)
+        e4.insert(END,selected_tuple[4])
+    except IndexError:
+        pass
 
 def view_command():
     list1.delete(0, END)
-    for row in bookstore_back.view():
+    for row in database.view():
         list1.insert(END, row)
 
 def search_command():
     list1.delete(0, END)
-    for row in bookstore_back.search(title_text.get(), author_text.get(), year_text.get(), isbn_text.get()):
+    for row in database.search(title_text.get(), author_text.get(), year_text.get(), isbn_text.get()):
         list1.insert(END, row)
 
 def add_command():
-    bookstore_back.insert(title_text.get(), author_text.get(), year_text.get(), isbn_text.get())
+    database.insert(title_text.get(), author_text.get(), year_text.get(), isbn_text.get())
     list1.delete(0, END)
     list1.insert(END,(title_text.get(), author_text.get(), year_text.get(), isbn_text.get()))
 
 def delete_command():
-    bookstore_back.delete(selected_tuple[0])
+    database.delete(selected_tuple[0])
 
 def update_command():
-    bookstore_back.update(selected_tuple[0],title_text.get(), author_text.get(), year_text.get(), isbn_text.get())
+    database.update(selected_tuple[0],title_text.get(), author_text.get(), year_text.get(), isbn_text.get())
 
 window=Tk()
 
